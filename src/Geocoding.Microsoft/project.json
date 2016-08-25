@@ -10,9 +10,8 @@
   "releaseNotes": "https://github.com/chadly/Geocoding.net/releases/latest",
 
   "frameworks": {
-    "netcoreapp1.0": {
+    "netstandard1.6": {
       "imports": [
-        "dnxcore50",
         "portable-net451+win8"
       ]
     }

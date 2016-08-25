@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Geocoding.Microsoft
 {
@@ -109,12 +110,12 @@ namespace Geocoding.Microsoft
 			return builder.ToString();
 		}
 
-		public IEnumerable<BingAddress> Geocode(string address)
+		public async Task<IEnumerable<BingAddress>> Geocode(string address)
 		{
 			try
 			{
 				var url = GetQueryUrl(address);
-				var response = GetResponse(url);
+				var response = await GetResponse(url);
 				return ParseResponse(response);
 			}
 			catch (Exception ex)
@@ -123,12 +124,12 @@ namespace Geocoding.Microsoft
 			}
 		}
 
-		public IEnumerable<BingAddress> Geocode(string street, string city, string state, string postalCode, string country)
+		public async Task<IEnumerable<BingAddress>> Geocode(string street, string city, string state, string postalCode, string country)
 		{
 			try
 			{
 				var url = GetQueryUrl(street, city, state, postalCode, country);
-				var response = GetResponse(url);
+				var response = await GetResponse(url);
 				return ParseResponse(response);
 			}
 			catch (Exception ex)
@@ -137,20 +138,20 @@ namespace Geocoding.Microsoft
 			}
 		}
 
-		public IEnumerable<BingAddress> ReverseGeocode(Location location)
+		public async Task<IEnumerable<BingAddress>> ReverseGeocode(Location location)
 		{
 			if (location == null)
 				throw new ArgumentNullException("location");
 
-			return ReverseGeocode(location.Latitude, location.Longitude);
+			return await ReverseGeocode(location.Latitude, location.Longitude);
 		}
 
-		public IEnumerable<BingAddress> ReverseGeocode(double latitude, double longitude)
+		public async Task<IEnumerable<BingAddress>> ReverseGeocode(double latitude, double longitude)
 		{
 			try
 			{
 				var url = GetQueryUrl(latitude, longitude);
-				var response = GetResponse(url);
+				var response = await GetResponse(url);
 				return ParseResponse(response);
 			}
 			catch (Exception ex)
@@ -159,24 +160,24 @@ namespace Geocoding.Microsoft
 			}
 		}
 
-		IEnumerable<Address> IGeocoder.Geocode(string address)
+		async Task<IEnumerable<Address>> IGeocoder.Geocode(string address)
 		{
-			return Geocode(address).Cast<Address>();
+			return (await Geocode(address)).Cast<Address>();
 		}
 
-		IEnumerable<Address> IGeocoder.Geocode(string street, string city, string state, string postalCode, string country)
+        async Task<IEnumerable<Address>> IGeocoder.Geocode(string street, string city, string state, string postalCode, string country)
 		{
-			return Geocode(street, city, state, postalCode, country).Cast<Address>();
+			return (await Geocode(street, city, state, postalCode, country)).Cast<Address>();
 		}
 
-		IEnumerable<Address> IGeocoder.ReverseGeocode(Location location)
+        async Task<IEnumerable<Address>> IGeocoder.ReverseGeocode(Location location)
 		{
-			return ReverseGeocode(location).Cast<Address>();
+			return (await ReverseGeocode(location)).Cast<Address>();
 		}
 
-		IEnumerable<Address> IGeocoder.ReverseGeocode(double latitude, double longitude)
+        async Task<IEnumerable<Address>> IGeocoder.ReverseGeocode(double latitude, double longitude)
 		{
-			return ReverseGeocode(latitude, longitude).Cast<Address>();
+			return (await ReverseGeocode(latitude, longitude)).Cast<Address>();
 		}
 
 		private bool AppendParameter(StringBuilder sb, string parameter, string format, bool first)
@@ -231,12 +232,12 @@ namespace Geocoding.Microsoft
 			return new HttpClient(handler);
 		}
 
-		private Json.Response GetResponse(string queryURL)
+		private async Task<Json.Response> GetResponse(string queryURL)
 		{
 			using (var client = BuildClient())
 			{
-				var response = client.SendAsync(CreateRequest(queryURL)).Result;
-				return response.Content.ReadAsAsync<Json.Response>().Result;
+				var response = await client.SendAsync(CreateRequest(queryURL));
+				return await response.Content.ReadAsAsync<Json.Response>();
 			}
 		}
 

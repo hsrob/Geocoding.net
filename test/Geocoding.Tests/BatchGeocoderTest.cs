@@ -13,7 +13,7 @@ namespace Geocoding.Tests
 
 		public BatchGeocoderTest() 
 		{
-			Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-us");
+			CultureInfo.CurrentCulture = new CultureInfo("en-us");
 
 			batchGeocoder = CreateBatchGeocoder();
 		}
@@ -22,11 +22,11 @@ namespace Geocoding.Tests
 
 		[Theory]
 		[MemberData("BatchGeoCodeData")]
-		public virtual void CanGeoCodeAddress(string[] addresses)
+		public virtual async void CanGeoCodeAddress(string[] addresses)
 		{
 			Assert.NotEmpty(addresses);
 
-			IEnumerable<ResultItem> results = batchGeocoder.Geocode(addresses);
+			IEnumerable<ResultItem> results = await batchGeocoder.Geocode(addresses);
 			Assert.NotEmpty(results);
 			Assert.Equal(addresses.Length, results.Count());
 

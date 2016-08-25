@@ -8,9 +8,22 @@
   "projectUrl": "https://github.com/chadly/Geocoding.net",
   "licenseUrl": "https://github.com/chadly/Geocoding.net/blob/master/LICENSE",
   "releaseNotes": "https://github.com/chadly/Geocoding.net/releases/latest",
-
+  "testRunner": "xunit",
   "frameworks": {
-    "netcoreapp1.0": { }
+    "netcoreapp1.0": {
+      "imports": [
+        "dnxcore50",
+        "portable-net45+win8"
+      ]
+    }
+  },
+  "buildOptions": {
+    "copyToOutput": {
+      "include": [ "settings.json" ]
+    }
+  },
+  "runtimes": {
+    "win7-x64": {}
   },
   "dependencies": {
     "Geocoding.Core": "4.0.0-*",
@@ -18,13 +31,10 @@
     "Geocoding.MapQuest": "4.0.0-*",
     "Geocoding.Microsoft": "4.0.0-*",
     "Geocoding.Yahoo": "4.0.0-*",
-    "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
-    "xunit": "2.2.0-beta1-build3239",
-    "xunit.runner.dnx": "2.1.0-rc1-build204"
-  },
-  "commands": {
-    "test": "xunit.runner.dnx"
+    "Microsoft.Extensions.Configuration": "1.0.0",
+    "Microsoft.Extensions.Configuration.Binder": "1.0.0",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0",
+    "xunit": "2.2.0-beta2-build3300",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029"
   }
 }

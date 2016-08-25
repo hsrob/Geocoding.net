@@ -1,9 +1,8 @@
 using System;
-using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Text;
-using System.Web;
 using System.Net;
+using System.Security.Cryptography;
 
 //http://oauth.googlecode.com/svn/code/csharp/OAuthBase.cs
 namespace Geocoding.Yahoo {

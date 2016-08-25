@@ -5,7 +5,7 @@ using Xunit;
 namespace Geocoding.Tests
 {
 	[Collection("Settings")]
-	public class BingMapsAsyncTest : AsyncGeocoderTest
+	public class BingMapsAsyncTest : GeocoderTest
 	{
 		readonly SettingsFixture settings;
 		BingMapsGeocoder geoCoder;
@@ -15,7 +15,7 @@ namespace Geocoding.Tests
 			this.settings = settings;
 		}
 
-		protected override IAsyncGeocoder CreateAsyncGeocoder()
+		protected override IGeocoder CreateGeocoder()
 		{
 			geoCoder = new BingMapsGeocoder(settings.BingMapsKey);
 			return geoCoder;
@@ -29,7 +29,7 @@ namespace Geocoding.Tests
 		[InlineData("1600 pennsylvania ave washington dc", EntityType.Address)]
 		public void CanParseAddressTypes(string address, EntityType type)
 		{
-			geoCoder.GeocodeAsync(address).ContinueWith(task =>
+			geoCoder.Geocode(address).ContinueWith(task =>
 			{
 				BingAddress[] addresses = task.Result.ToArray();
 				Assert.Equal(type, addresses[0].Type);

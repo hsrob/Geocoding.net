@@ -10,9 +10,10 @@
   "releaseNotes": "https://github.com/chadly/Geocoding.net/releases/latest",
 
   "frameworks": {
-    "netcoreapp1.0": {}
+    "netstandard1.6": {}
   },
   "dependencies": {
-    "Newtonsoft.Json": "9.0.1"
+    "Newtonsoft.Json": "9.0.1",
+    "System.Net.Primitives": "4.0.11"
   }
 }

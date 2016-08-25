@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Xml.XPath;
 
 namespace Geocoding.Yahoo
@@ -43,7 +44,7 @@ namespace Geocoding.Yahoo
 			this.consumerSecret = consumerSecret;
 		}
 
-		public IEnumerable<YahooAddress> Geocode(string address)
+		public async Task<IEnumerable<YahooAddress>> Geocode(string address)
 		{
 			if (string.IsNullOrEmpty(address))
 				throw new ArgumentNullException("address");
@@ -51,38 +52,38 @@ namespace Geocoding.Yahoo
 			string url = string.Format(ServiceUrl, WebUtility.UrlEncode(address));
 
 			HttpWebRequest request = BuildWebRequest(url);
-			return ProcessRequest(request);
+			return await ProcessRequest(request);
 		}
 
-		public IEnumerable<YahooAddress> Geocode(string street, string city, string state, string postalCode, string country)
+		public async Task<IEnumerable<YahooAddress>> Geocode(string street, string city, string state, string postalCode, string country)
 		{
 			string url = string.Format(ServiceUrlNormal, WebUtility.UrlEncode(street), WebUtility.UrlEncode(city), WebUtility.UrlEncode(state), WebUtility.UrlEncode(postalCode), WebUtility.UrlEncode(country));
 
 			HttpWebRequest request = BuildWebRequest(url);
-			return ProcessRequest(request);
+			return await ProcessRequest(request);
 		}
 
-		public IEnumerable<YahooAddress> ReverseGeocode(Location location)
+		public async Task<IEnumerable<YahooAddress>> ReverseGeocode(Location location)
 		{
 			if (location == null)
 				throw new ArgumentNullException("location");
 
-			return ReverseGeocode(location.Latitude, location.Longitude);
+			return await ReverseGeocode(location.Latitude, location.Longitude);
 		}
 
-		public IEnumerable<YahooAddress> ReverseGeocode(double latitude, double longitude)
+		public async Task<IEnumerable<YahooAddress>> ReverseGeocode(double latitude, double longitude)
 		{
 			string url = string.Format(ServiceUrlReverse, string.Format(CultureInfo.InvariantCulture, "{0} {1}", latitude, longitude));
 
 			HttpWebRequest request = BuildWebRequest(url);
-			return ProcessRequest(request);
+			return await ProcessRequest(request);
 		}
 
-		private IEnumerable<YahooAddress> ProcessRequest(HttpWebRequest request)
+		private async Task<IEnumerable<YahooAddress>> ProcessRequest(HttpWebRequest request)
 		{
 			try
 			{
-				using (WebResponse response = request.GetResponse())
+				using (WebResponse response = await request.GetResponseAsync())
 				{
 					return ProcessWebResponse(response);
 				}
@@ -99,24 +100,24 @@ namespace Geocoding.Yahoo
 			}
 		}
 
-		IEnumerable<Address> IGeocoder.Geocode(string address)
+		async Task<IEnumerable<Address>> IGeocoder.Geocode(string address)
 		{
-			return Geocode(address).Cast<Address>();
+			return (await Geocode(address)).Cast<Address>();
 		}
 
-		IEnumerable<Address> IGeocoder.Geocode(string street, string city, string state, string postalCode, string country)
+        async Task<IEnumerable<Address>> IGeocoder.Geocode(string street, string city, string state, string postalCode, string country)
 		{
-			return Geocode(street, city, state, postalCode, country).Cast<Address>();
+			return (await Geocode(street, city, state, postalCode, country)).Cast<Address>();
 		}
 
-		IEnumerable<Address> IGeocoder.ReverseGeocode(Location location)
+        async Task<IEnumerable<Address>> IGeocoder.ReverseGeocode(Location location)
 		{
-			return ReverseGeocode(location).Cast<Address>();
+			return (await ReverseGeocode(location)).Cast<Address>();
 		}
 
-		IEnumerable<Address> IGeocoder.ReverseGeocode(double latitude, double longitude)
+        async Task<IEnumerable<Address>> IGeocoder.ReverseGeocode(double latitude, double longitude)
 		{
-			return ReverseGeocode(latitude, longitude).Cast<Address>();
+			return (await ReverseGeocode(latitude, longitude)).Cast<Address>();
 		}
 
 		private HttpWebRequest BuildWebRequest(string url)

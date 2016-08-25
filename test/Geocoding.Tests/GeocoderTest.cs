@@ -12,7 +12,7 @@ namespace Geocoding.Tests
 
 		public GeocoderTest()
 		{
-			Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-us");
+            CultureInfo.CurrentCulture = new CultureInfo("en-us");
 
 			geocoder = CreateGeocoder();
 		}
@@ -21,62 +21,63 @@ namespace Geocoding.Tests
 
 		[Theory]
 		[InlineData("1600 pennsylvania ave nw, washington dc")]
-		public virtual void CanGeocodeAddress(string address)
+		public virtual async void CanGeocodeAddress(string address)
 		{
-			Address[] addresses = geocoder.Geocode(address).ToArray();
+			Address[] addresses = (await geocoder.Geocode(address)).ToArray();
 			addresses[0].AssertWhiteHouse();
 		}
 
 		[Fact]
-		public virtual void CanGeocodeNormalizedAddress()
+		public virtual async void CanGeocodeNormalizedAddress()
 		{
-			Address[] addresses = geocoder.Geocode("1600 pennsylvania ave nw", "washington", "dc", null, null).ToArray();
+			Address[] addresses = (await geocoder.Geocode("1600 pennsylvania ave nw", "washington", "dc", null, null)).ToArray();
 			addresses[0].AssertWhiteHouse();
 		}
 
 		[Theory]
 		[InlineData("en-US")]
 		[InlineData("cs-CZ")]
-		public virtual void CanGeocodeAddressUnderDifferentCultures(string cultureName)
+		public virtual async void CanGeocodeAddressUnderDifferentCultures(string cultureName)
 		{
-			Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(cultureName);
 
-			Address[] addresses = geocoder.Geocode("24 sussex drive ottawa, ontario").ToArray();
+            CultureInfo.CurrentCulture = new CultureInfo(cultureName);
+
+			Address[] addresses = (await geocoder.Geocode("24 sussex drive ottawa, ontario")).ToArray();
 			addresses[0].AssertCanadianPrimeMinister();
 		}
 
 		[Theory]
 		[InlineData("en-US")]
 		[InlineData("cs-CZ")]
-		public virtual void CanReverseGeocodeAddressUnderDifferentCultures(string cultureName)
+		public virtual async void CanReverseGeocodeAddressUnderDifferentCultures(string cultureName)
 		{
-			Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(cultureName);
+			CultureInfo.CurrentCulture = new CultureInfo(cultureName);
 
-			Address[] addresses = geocoder.ReverseGeocode(38.8976777, -77.036517).ToArray();
+			Address[] addresses = (await geocoder.ReverseGeocode(38.8976777, -77.036517)).ToArray();
 			addresses[0].AssertWhiteHouseArea();
 		}
 
 		[Fact]
-		public virtual void ShouldNotBlowUpOnBadAddress()
+		public virtual async void ShouldNotBlowUpOnBadAddress()
 		{
-			Address[] addresses = geocoder.Geocode("sdlkf;jasl;kjfldksj,fasldf").ToArray();
+			Address[] addresses = (await geocoder.Geocode("sdlkf;jasl;kjfldksj,fasldf")).ToArray();
 			Assert.Empty(addresses);
 		}
 
 		[Theory]
 		[InlineData("Wilshire & Bundy, Los Angeles")]
-		public virtual void CanGeocodeWithSpecialCharacters(string address)
+		public virtual async void CanGeocodeWithSpecialCharacters(string address)
 		{
-			Address[] addresses = geocoder.Geocode(address).ToArray();
+			Address[] addresses = (await geocoder.Geocode(address)).ToArray();
 
 			//asserting no exceptions are thrown and that we get something
 			Assert.NotEmpty(addresses);
 		}
 
 		[Fact]
-		public virtual void CanReverseGeocode()
+		public virtual async void CanReverseGeocode()
 		{
-			Address[] addresses = geocoder.ReverseGeocode(38.8976777, -77.036517).ToArray();
+			Address[] addresses = (await geocoder.ReverseGeocode(38.8976777, -77.036517)).ToArray();
 			addresses[0].AssertWhiteHouseArea();
 		}
 
@@ -84,9 +85,9 @@ namespace Geocoding.Tests
 		[InlineData("1 Robert Wood Johnson Hosp New Brunswick, NJ 08901 USA")]
 		[InlineData("miss, MO")]
 		//https://github.com/chadly/Geocoding.net/issues/6
-		public virtual void CanGeocodeInvalidZipCodes(string address)
+		public virtual async void CanGeocodeInvalidZipCodes(string address)
 		{
-			Address[] addresses = geocoder.Geocode(address).ToArray();
+			Address[] addresses = (await geocoder.Geocode(address)).ToArray();
 			Assert.NotEmpty(addresses);
 		}
 	}

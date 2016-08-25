@@ -6,7 +6,7 @@ using Xunit;
 namespace Geocoding.Tests
 {
 	[Collection("Settings")]
-	public class GoogleAsyncGeocoderTest : AsyncGeocoderTest
+	public class GoogleAsyncGeocoderTest : GeocoderTest
 	{
 		readonly SettingsFixture settings;
 		GoogleGeocoder geoCoder;
@@ -14,22 +14,6 @@ namespace Geocoding.Tests
 		public GoogleAsyncGeocoderTest(SettingsFixture settings)
 		{
 			this.settings = settings;
-		}
-
-		protected override IAsyncGeocoder CreateAsyncGeocoder()
-		{
-			string apiKey = settings.GoogleApiKey;
-
-			if (String.IsNullOrEmpty(apiKey))
-			{
-				geoCoder = new GoogleGeocoder();
-			}
-			else
-			{
-				geoCoder = new GoogleGeocoder(apiKey);
-			}
-
-			return geoCoder;
 		}
 
 		[Theory]
@@ -40,11 +24,27 @@ namespace Geocoding.Tests
 		[InlineData("1600 pennsylvania ave washington dc", GoogleAddressType.StreetAddress)]
 		public void CanParseAddressTypes(string address, GoogleAddressType type)
 		{
-			geoCoder.GeocodeAsync(address).ContinueWith(task =>
+			geoCoder.Geocode(address).ContinueWith(task =>
 			{
 				GoogleAddress[] addresses = task.Result.ToArray();
 				Assert.Equal(type, addresses[0].Type);
 			});
 		}
+
+	    protected override IGeocoder CreateGeocoder()
+	    {
+            string apiKey = settings.GoogleApiKey;
+
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                geoCoder = new GoogleGeocoder();
+            }
+            else
+            {
+                geoCoder = new GoogleGeocoder(apiKey);
+            }
+
+            return geoCoder;
+        }
 	}
 }

@@ -10,9 +10,11 @@
   "releaseNotes": "https://github.com/chadly/Geocoding.net/releases/latest",
 
   "frameworks": {
-    "netcoreapp1.0": {}
+    "netstandard1.6": {}
   },
   "dependencies": {
-    "Geocoding.Core": "4.0.0-*"
+    "Geocoding.Core": "4.0.0-*",
+    "System.Net.Http": "4.1.0",
+    "System.Net.Requests": "4.0.11"
   }
 }
