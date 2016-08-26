@@ -17,28 +17,34 @@ namespace Geocoding.Tests
 
 		public string YahooConsumerKey
 		{
-			get { return config.GetValue<string>("yahooConsumerKey"); }
+			get { return GetStringOrDefault("yahooConsumerKey"); }
 		}
 
 		public string YahooConsumerSecret
 		{
-			get { return config.GetValue<string>("yahooConsumerSecret"); }
+			get { return GetStringOrDefault("yahooConsumerSecret"); }
 		}
 
 		public string BingMapsKey
 		{
-			get { return config.GetValue<string>("bingMapsKey"); }
+			get { return GetStringOrDefault("bingMapsKey"); }
 		}
 
 		public string GoogleApiKey
 		{
-			get { return config.GetValue<string>("googleApiKey"); }
+			get { return GetStringOrDefault("googleApiKey"); }
 		}
 
 		public string MapQuestKey
 		{
-			get { return config.GetValue<string>("mapQuestKey"); }
+			get { return GetStringOrDefault("mapQuestKey"); }
 		}
+
+	    string GetStringOrDefault(string keyName)
+	    {
+	        var val = config.GetValue<string>(keyName);
+	        return !string.IsNullOrWhiteSpace(val) ? val : "";
+	    }
 	}
 
 	[CollectionDefinition("Settings")]

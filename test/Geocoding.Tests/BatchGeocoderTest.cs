@@ -10,11 +10,11 @@ namespace Geocoding.Tests
 	public abstract class BatchGeocoderTest
 	{
 		readonly IBatchGeocoder batchGeocoder;
-
-		public BatchGeocoderTest() 
+        protected readonly SettingsFixture settings;
+        public BatchGeocoderTest() 
 		{
 			CultureInfo.CurrentCulture = new CultureInfo("en-us");
-
+            settings = new SettingsFixture();
 			batchGeocoder = CreateBatchGeocoder();
 		}
 

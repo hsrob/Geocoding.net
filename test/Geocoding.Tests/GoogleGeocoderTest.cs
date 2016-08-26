@@ -8,14 +8,8 @@ namespace Geocoding.Tests
 	[Collection("Settings")]
 	public class GoogleGeocoderTest : GeocoderTest
 	{
-		readonly SettingsFixture settings;
 		GoogleGeocoder geocoder;
-
-		public GoogleGeocoderTest(SettingsFixture settings)
-		{
-			this.settings = settings;
-		}
-
+        
 		protected override IGeocoder CreateGeocoder()
 		{
 			string apiKey = settings.GoogleApiKey;

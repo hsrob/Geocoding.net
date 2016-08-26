@@ -8,13 +8,7 @@ namespace Geocoding.Tests
 	[Collection("Settings")]
 	public class GoogleAsyncGeocoderTest : GeocoderTest
 	{
-		readonly SettingsFixture settings;
 		GoogleGeocoder geoCoder;
-
-		public GoogleAsyncGeocoderTest(SettingsFixture settings)
-		{
-			this.settings = settings;
-		}
 
 		[Theory]
 		[InlineData("United States", GoogleAddressType.Country)]

@@ -7,14 +7,8 @@ namespace Geocoding.Tests
 	[Collection("Settings")]
 	public class BingMapsAsyncTest : GeocoderTest
 	{
-		readonly SettingsFixture settings;
 		BingMapsGeocoder geoCoder;
-
-		public BingMapsAsyncTest(SettingsFixture settings)
-		{
-			this.settings = settings;
-		}
-
+        
 		protected override IGeocoder CreateGeocoder()
 		{
 			geoCoder = new BingMapsGeocoder(settings.BingMapsKey);

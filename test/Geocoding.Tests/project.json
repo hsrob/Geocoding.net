@@ -19,7 +19,7 @@
   },
   "buildOptions": {
     "copyToOutput": {
-      "include": [ "settings.json" ]
+      "include": [ "settings.json", "settings-override.json" ]
     }
   },
   "runtimes": {
@@ -31,6 +31,7 @@
     "Geocoding.MapQuest": "4.0.0-*",
     "Geocoding.Microsoft": "4.0.0-*",
     "Geocoding.Yahoo": "4.0.0-*",
+    "System.Runtime.Serialization.Xml": "4.1.1",
     "Microsoft.Extensions.Configuration": "1.0.0",
     "Microsoft.Extensions.Configuration.Binder": "1.0.0",
     "Microsoft.Extensions.Configuration.Json": "1.0.0",

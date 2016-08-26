@@ -198,9 +198,10 @@ namespace Geocoding.Microsoft
 		{
 			var list = new List<BingAddress>();
 
-			foreach (Json.Location location in response.ResourceSets[0].Resources)
+			foreach (var resource in response.ResourceSets[0].Resources)
 			{
-				list.Add(new BingAddress(
+			    var location = resource as Json.Location;
+			    list.Add(new BingAddress(
 					location.Address.FormattedAddress,
 					new Location(location.Point.Coordinates[0], location.Point.Coordinates[1]),
 					location.Address.AddressLine,

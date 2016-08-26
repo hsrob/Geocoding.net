@@ -6,13 +6,6 @@ namespace Geocoding.Tests
 	[Collection("Settings")]
 	public class YahooGeocoderTest : GeocoderTest
 	{
-		readonly SettingsFixture settings;
-
-		public YahooGeocoderTest(SettingsFixture settings)
-		{
-			this.settings = settings;
-		}
-
 		protected override IGeocoder CreateGeocoder()
 		{
 			return new YahooGeocoder(

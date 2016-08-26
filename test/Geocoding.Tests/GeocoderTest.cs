@@ -9,11 +9,11 @@ namespace Geocoding.Tests
 	public abstract class GeocoderTest
 	{
 		readonly IGeocoder geocoder;
-
-		public GeocoderTest()
+	    protected readonly SettingsFixture settings;
+		protected GeocoderTest()
 		{
             CultureInfo.CurrentCulture = new CultureInfo("en-us");
-
+            settings = new SettingsFixture();
 			geocoder = CreateGeocoder();
 		}
 
