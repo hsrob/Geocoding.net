@@ -1,5 +1,5 @@
 {
-  "version": "5.0.0-alpha1",
+  "version": "5.0.0-*",
   "title": "Geocoding.net Core",
   "description": "Includes a model and interface for communicating with four popular Geocoding providers. Current implementations include: Google Maps, Yahoo! PlaceFinder, Bing Maps (aka Virtual Earth), and Mapquest. The API returns latitude/longitude coordinates and normalized address information. This can be used to perform address validation, real time mapping of user-entered addresses, distance calculations, and much more.",
   "authors": [ "chadly" ],
