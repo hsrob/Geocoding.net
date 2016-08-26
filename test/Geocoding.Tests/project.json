@@ -1,5 +1,5 @@
 {
-  "version": "4.0.0-beta1",
+  "version": "5.0.0-alpha1",
   "title": "Geocoding.net Tests",
   "description": "Includes a model and interface for communicating with four popular Geocoding providers. Current implementations include: Google Maps, Yahoo! PlaceFinder, Bing Maps (aka Virtual Earth), and Mapquest. The API returns latitude/longitude coordinates and normalized address information. This can be used to perform address validation, real time mapping of user-entered addresses, distance calculations, and much more.",
   "authors": [ "chadly" ],
@@ -26,11 +26,11 @@
     "win7-x64": {}
   },
   "dependencies": {
-    "Geocoding.Core": "4.0.0-*",
-    "Geocoding.Google": "4.0.0-*",
-    "Geocoding.MapQuest": "4.0.0-*",
-    "Geocoding.Microsoft": "4.0.0-*",
-    "Geocoding.Yahoo": "4.0.0-*",
+    "Geocoding.Core": "5.0.0-*",
+    "Geocoding.Google": "5.0.0-*",
+    "Geocoding.MapQuest": "5.0.0-*",
+    "Geocoding.Microsoft": "5.0.0-*",
+    "Geocoding.Yahoo": "5.0.0-*",
     "System.Runtime.Serialization.Xml": "4.1.1",
     "Microsoft.Extensions.Configuration": "1.0.0",
     "Microsoft.Extensions.Configuration.Binder": "1.0.0",
